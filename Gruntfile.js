@@ -15,10 +15,13 @@ module.exports = function (grunt) {
   // Time how long tasks take. Can help when optimizing build times
   require('time-grunt')(grunt);
 
+  grunt.loadNpmTasks('grunt-phonegap');
+
   // Configurable paths for the application
   var appConfig = {
     app: require('./bower.json').appPath || 'app',
-    dist: 'dist'
+    dist: 'dist',
+    phonegap: 'www'
   };
 
   // Define the configuration for all the tasks
@@ -27,6 +30,16 @@ module.exports = function (grunt) {
     // Project settings
     yeoman: appConfig,
 
+    shell: {
+      phonegapBuild: {
+        command: 'cordova build android',
+        failOnError: true
+      },
+      phonegapRun: {
+        command: 'cordova run android',
+        failOnError: true
+      }
+    },
     // Watches files for changes and runs tasks based on the changed files
     watch: {
       bower: {
@@ -42,7 +55,8 @@ module.exports = function (grunt) {
       },
       jsTest: {
         files: ['test/spec/{,*/}*.js'],
-        tasks: ['newer:jshint:test', 'karma']
+        // tasks: ['newer:jshint:test', 'karma']
+        tasks: ['newer:jshint:test']
       },
       compass: {
         files: ['<%= yeoman.app %>/styles/{,*/}*.{scss,sass}'],
@@ -62,6 +76,8 @@ module.exports = function (grunt) {
         ]
       }
     },
+
+
 
     // The actual grunt server settings
     connect: {
@@ -142,6 +158,7 @@ module.exports = function (grunt) {
           ]
         }]
       },
+      phonegap: ['<%= yeoman.phonegap %>/*', '!<%= yeoman.phonegap %>/config.xml', '!<%= yeoman.phonegap %>/res'],
       server: '.tmp'
     },
 
@@ -292,18 +309,32 @@ module.exports = function (grunt) {
     htmlmin: {
       dist: {
         options: {
-          collapseWhitespace: true,
-          conservativeCollapse: true,
+          /*removeCommentsFromCDATA: true,
+          // https://github.com/yeoman/grunt-usemin/issues/44
+          //collapseWhitespace: true,
           collapseBooleanAttributes: true,
-          removeCommentsFromCDATA: true,
-          removeOptionalTags: true
+          removeAttributeQuotes: true,
+          removeRedundantAttributes: true,
+          useShortDoctype: true,
+          removeEmptyAttributes: true,
+          removeOptionalTags: true*/
         },
         files: [{
           expand: true,
-          cwd: '<%= yeoman.dist %>',
+          cwd: '<%= yeoman.app %>',
           src: ['*.html', 'views/{,*/}*.html'],
           dest: '<%= yeoman.dist %>'
         }]
+      }
+    },
+    cssmin: {
+      dist: {
+        files: {
+          '<%= yeoman.dist %>/styles/main.css': [
+            '.tmp/styles/{,*/}*.css',
+            '<%= yeoman.app %>/styles/{,*/}*.css'
+          ]
+        }
       }
     },
 
@@ -326,7 +357,16 @@ module.exports = function (grunt) {
         html: ['<%= yeoman.dist %>/*.html']
       }
     },
-
+    ngmin: {
+      dist: {
+        files: [{
+          expand: true,
+          cwd: '<%= yeoman.dist %>/scripts',
+          src: '*.js',
+          dest: '<%= yeoman.dist %>/scripts'
+        }]
+      }
+    },
     // Copies remaining files to places other tasks can use
     copy: {
       dist: {
@@ -336,30 +376,37 @@ module.exports = function (grunt) {
           cwd: '<%= yeoman.app %>',
           dest: '<%= yeoman.dist %>',
           src: [
-            '*.{ico,png,txt}',
+            '*.{ico,txt}',
             '.htaccess',
-            '*.html',
-            'views/{,*/}*.html',
-            'images/{,*/}*.{webp}',
-            'fonts/{,*/}*.*'
+            'components/**/*',
+            'images/{,*/}*.{gif,webp}',
+            'styles/fonts/*',
+            'assets/**/*'
           ]
-        }, {
-          expand: true,
-          cwd: '.tmp/images',
-          dest: '<%= yeoman.dist %>/images',
-          src: ['generated/*']
-        }, {
-          expand: true,
-          cwd: '.',
-          src: 'bower_components/bootstrap-sass-official/assets/fonts/bootstrap/*',
-          dest: '<%= yeoman.dist %>'
         }]
       },
-      styles: {
+      dev: {
+        files: [{
+          expand: true,
+          dot: true,
+          cwd: '<%= yeoman.app %>',
+          dest: '<%= yeoman.dist %>',
+          src: [
+            '*.{ico,txt}',
+            '.htaccess',
+            'components/**/*',
+            'images/{,*/}*.{gif,webp}',
+            'styles/fonts/*',
+            'scripts/{,*/}*.js',
+            'assets/**/*'
+          ]
+        }]
+      },
+      phonegap: {
         expand: true,
-        cwd: '<%= yeoman.app %>/styles',
-        dest: '.tmp/styles/',
-        src: '{,*/}*.css'
+        cwd: '<%= yeoman.dist %>',
+        dest: '<%= yeoman.phonegap %>',
+        src: '**'
       }
     },
 
@@ -416,22 +463,45 @@ module.exports = function (grunt) {
     'karma'
   ]);
 
-  grunt.registerTask('build', [
-    'clean:dist',
-    'wiredep',
-    'useminPrepare',
-    'concurrent:dist',
-    'autoprefixer',
-    'concat',
-    'ngAnnotate',
-    'copy:dist',
-    'cdnify',
-    'cssmin',
-    'uglify',
-    'filerev',
-    'usemin',
-    'htmlmin'
-  ]);
+  grunt.registerTask('build', 'build task', function(target) {
+    target = target || 'dev';
+    if (target === 'phonegap') {
+      grunt.task.run([
+        'clean:phonegap',
+        'clean:dist',
+        // 'jshint',
+        // 'test',
+        'compass:dist',
+        'imagemin',
+        'cssmin',
+        'htmlmin',
+        'copy:dev',
+        'cdnify',
+        'ngmin',
+        'copy:phonegap',
+        'shell:phonegapBuild',
+        'shell:phonegapRun'
+      ]);
+    } else {
+      grunt.task.run([
+        'clean:dist',
+        // 'jshint',
+        'test',
+        'compass:dist',
+        'useminPrepare',
+        'concat',
+        'imagemin',
+        // 'cssmin',
+        'htmlmin',
+        'copy:dist',
+        'cdnify',
+        'ngmin',
+        'uglify',
+        'rev',
+        'usemin'
+      ]);
+    }
+  });
 
   grunt.registerTask('default', [
     'newer:jshint',

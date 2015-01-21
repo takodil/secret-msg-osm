@@ -1,0 +1,34 @@
+body {
+    padding: 0;
+    margin: 0;
+}
+html, body, #map {
+    height: 100%;
+}
+.angular-leaflet-map {
+    height: 100%;
+}
+.button {
+  background-image: url('../images/greenbutton.png');
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 0 5px;
+  color: #5F584D;
+  margin: 5px 5px;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 34px;
+  font-size: 14px;
+  font-weight: 700;
+  white-space: nowrap;
+  width: 122px;
+  position: fixed;
+  z-index: 2;
+}
+.leaflet-control-zoom {
+  display: none !important;
+}
+.map-container {
+  height: 100%
+}
