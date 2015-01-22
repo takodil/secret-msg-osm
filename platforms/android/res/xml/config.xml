@@ -20,4 +20,7 @@
     <content src="index.html" />
     <access origin="*" />
     <preference name="orientation" value="portrait" />
+    <feature name="Geocoder">
+        <param name="android-package" value="org.beuckman.geocoder.CDVGeocoder" />
+    </feature>
 </widget>

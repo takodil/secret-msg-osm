@@ -16,6 +16,7 @@ angular.module('secretMsgOsmApp')
 
     $rootScope.$on("app-ready", function () {
       $scope.startApp();
+      
     });
 
     $scope.startApp = function () {

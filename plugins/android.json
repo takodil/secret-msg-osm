@@ -42,6 +42,16 @@
                         }
                     ]
                 }
+            },
+            "config.xml": {
+                "parents": {
+                    "/*": [
+                        {
+                            "xml": "<feature name=\"Geocoder\"><param name=\"android-package\" value=\"org.beuckman.geocoder.CDVGeocoder\" /></feature>",
+                            "count": 1
+                        }
+                    ]
+                }
             }
         }
     },
@@ -56,6 +66,9 @@
             "PACKAGE_NAME": "com.aldila"
         },
         "org.apache.cordova.geolocation": {
+            "PACKAGE_NAME": "com.aldila"
+        },
+        "org.beuckman.geocoder": {
             "PACKAGE_NAME": "com.aldila"
         }
     },

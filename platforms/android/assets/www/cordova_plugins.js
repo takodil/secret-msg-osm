@@ -21,6 +21,13 @@ module.exports = [
         "clobbers": [
             "window.open"
         ]
+    },
+    {
+        "file": "plugins/org.beuckman.geocoder/www/geocoder.js",
+        "id": "org.beuckman.geocoder.geocoder",
+        "clobbers": [
+            "navigator.geocoder"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -29,7 +36,8 @@ module.exports.metadata =
     "org.apache.cordova.device": "0.2.13",
     "org.apache.cordova.vibration": "0.3.12",
     "org.apache.cordova.inappbrowser": "0.5.4",
-    "org.apache.cordova.geolocation": "0.3.11"
+    "org.apache.cordova.geolocation": "0.3.11",
+    "org.beuckman.geocoder": "0.1.0"
 }
 // BOTTOM OF METADATA
 });

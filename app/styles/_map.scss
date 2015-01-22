@@ -23,7 +23,6 @@ html, body, #map {
   font-weight: 700;
   white-space: nowrap;
   width: 122px;
-  position: fixed;
   z-index: 2;
 }
 .leaflet-control-zoom {
@@ -31,4 +30,7 @@ html, body, #map {
 }
 .map-container {
   height: 100%
+}
+.fixed {
+  position: fixed;
 }
