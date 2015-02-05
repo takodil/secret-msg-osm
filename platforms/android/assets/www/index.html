@@ -19,6 +19,8 @@
     <script src="scripts/plugins/angular.js"></script>
     <script src="scripts/plugins/leaflet.js"></script>
     <script src="scripts/directives/angular-leaflet-directive.js"></script>
+    <script src="scripts/directives/angular-touch.js"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=true"></script> 
 
     <!-- endbuild -->
   </head>
@@ -68,12 +70,18 @@
     <!-- endbuild -->
 
         <!-- build:js({.tmp,app}) scripts/scripts.js -->
-        
+
         <script src="scripts/app.js"></script>
         <script src="scripts/init.js"></script>
         <script src="scripts/controllers/start.js"></script>
         <script src="scripts/controllers/map.js"></script>
+        <script src="scripts/controllers/messagesController.js"></script>
         <script src="scripts/services/phonegapReady.js"></script>
+        <script src="scripts/services/MessagesContentService.js"></script>
+        <script src="scripts/services/messagesService.js"></script>
+        <script src="scripts/services/popupService.js"></script>
+        
+
         
         <!-- endbuild -->
 </body>

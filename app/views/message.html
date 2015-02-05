@@ -1,0 +1,37 @@
+<div ng-controller="MsgsCtrl" class="content">
+	<form name="sendMessage">
+    <textarea ng-model="message"
+           name="message"
+           required
+           ng-minlength="{{min_length}}"
+           ng-maxlength="{{max_length}}"
+           placeholder="Write your secret message here...">
+    </textarea>
+    <br>
+    <textarea ng-model="signature"
+           name="signature"
+           required
+           ng-minlength="{{min_length}}"
+           ng-maxlength="{{signature_max_length}}"
+           placeholder="Write your signature here...">
+    </textarea>
+
+    <div class="error" ng-show="sendMessage.message.$error.minlength">
+        min {{min_length}} characters</div>
+    <div class="error" ng-show="sendMessage.message.$error.maxlength">
+        max {{max_length}} characters</div>
+    <div class="error" ng-show="sendMessage.signature.$error.minlength">
+      min {{min_length}} characters</div>
+    <div class="error" ng-show="sendMessage.signature.$error.signature_max_length">
+        max {{max_length}} characters</div>
+
+	</form>
+  <div class="button-group">
+    <div class="button center" ng-class="{inactive: sendMessage.$invalid}" ng-click="send(sendMessage.$valid)" translate>
+          Post
+    </div>
+    <div class="button center" ng-click="cancel()" translate>
+          Cancel
+    </div>
+  </div>
+</div>

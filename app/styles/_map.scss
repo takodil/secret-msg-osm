@@ -7,6 +7,7 @@ html, body, #map {
 }
 .angular-leaflet-map {
     height: 100%;
+    clear: both;
 }
 .button {
   background-image: url('../images/greenbutton.png');
@@ -24,6 +25,9 @@ html, body, #map {
   white-space: nowrap;
   width: 122px;
   z-index: 2;
+  &.ng-click-active {
+    background-image: url('../images/greenbutton-pressed.png');
+  }
 }
 .leaflet-control-zoom {
   display: none !important;
@@ -33,4 +37,36 @@ html, body, #map {
 }
 .fixed {
   position: fixed;
+}
+.absolute {
+  position: absolute;
+}
+.search-text {
+  position: absolute;
+  z-index: 4;
+  left: 50%;
+  margin-left: -154px;
+}
+.inline {
+  display: inline-table;
+}
+.search-text-input {
+  margin: 10px;
+}
+.center {
+  margin: 10px auto;
+}
+.msg-content {
+  position: absolute;
+  z-index: 4;
+  left: 50%;
+  margin-left: -163px;
+  bottom: 10px;
+}
+textarea {
+    resize: none;
+}
+.not-active {
+   pointer-events: none;
+   cursor: default;
 }

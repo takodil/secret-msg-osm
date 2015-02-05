@@ -1,6 +1,9 @@
 <div ng-controller="mapCtrl" class="map-container">
-	<!-- div class="button fixed" ng-click="getCurrentLocation()">Get Location</div> -->
-	<input type="text" ng-model="search"/>
-	<div class="button fixed" type="button" ng-click="geoCode()" ng-disabled="search.length == 0" title="search" >Search</div>
-	<leaflet defaults="defaults" center="center"></leaflet>
+	<div class="search-text">
+		<input type="text" ng-model="search" class="center search-text-input"/>
+		<div class="center button" type="button" ng-click="geoCode()" ng-disabled="search.length == 0" title="search" >Search</div>
+		<div class="button center" ng-click="getCurrentLocation()">Get Location</div>
+	</div>
+	<div id='message-post' class="msg-content" ng-include="'views/message.html'" ng-show="postMessageValue"></div>
+	<leaflet defaults="defaults" center="center" event-broadcast="events" markers="markers" ng-class="postMessageValue ? 'not-active' : ''"></leaflet>
 </div>

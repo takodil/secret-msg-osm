@@ -1,0 +1,65 @@
+.popup-overlay, .loading-overlay {
+  opacity: 0.4;
+  &.black {
+    opacity: 0.7;
+    background-color: black;
+  }
+}
+
+.full-screen, .popup-overlay, .loading-overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 9;
+}
+
+.popup-overlay, .loading-overlay, .popup {
+  background: #928B82;
+}
+
+.popup {
+  z-index: 10;
+  padding: 20px 15px 10px;
+  position: absolute;
+  top: 15%;
+  left: 50%;
+  margin-left: -150px;
+  width: 300px;
+  min-height: 50px;
+  box-shadow: inset 0 0 15px #514F4B;
+  border: 1px solid #312F2B;
+  &.login {
+    top: 25%;
+  }
+}
+
+.full-screen.clickthrough {
+  pointer-events: none;
+}
+
+.popup, .full-screen {
+  box-sizing: border-box;
+}
+
+.popup, .full-screen, .overlay {
+  font-size: 14px;
+  text-align: center;
+  overflow: none;
+  font-weight: 700;
+  word-wrap: break-word;
+}
+
+.button-cancel {
+  z-index: 1;
+  right: -8px;
+  top: -9px;
+  position: absolute;
+  min-height: 29px;
+  min-width: 29px;
+  border: none;
+
+  background-image: url('../images/popup-close.png');
+}
+.confirm {
+  margin: 0 auto;
+}

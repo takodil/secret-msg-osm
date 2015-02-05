@@ -10,6 +10,9 @@
     <feature name="InAppBrowser">
         <param name="android-package" value="org.apache.cordova.inappbrowser.InAppBrowser" />
     </feature>
+    <feature name="Geocoder">
+        <param name="android-package" value="org.beuckman.geocoder.CDVGeocoder" />
+    </feature>
     <name>SecretMessagesOSM</name>
     <description>
         A sample Apache Cordova application that responds to the deviceready event.
@@ -20,7 +23,4 @@
     <content src="index.html" />
     <access origin="*" />
     <preference name="orientation" value="portrait" />
-    <feature name="Geocoder">
-        <param name="android-package" value="org.beuckman.geocoder.CDVGeocoder" />
-    </feature>
 </widget>

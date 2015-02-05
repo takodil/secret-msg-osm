@@ -1,44 +1,31 @@
 'use strict';
-var app = angular.module('secretMsgOsmApp',['leaflet-directive']);
+var app = angular.module('secretMsgOsmApp',['leaflet-directive', 'ngTouch']);
 
-app.controller('mapCtrl', [ '$scope', 'leafletData', '$q', 'deviceready', '$window', function($scope, leafletData, $q, deviceready, $window) {
+app.controller('mapCtrl', [ '$scope', 'leafletData', '$q', 'deviceready', '$window', 'MessagesService', '$http', 'popupService', '$rootScope', function($scope, leafletData, $q, deviceready, $window, MessagesService, $http, popupService, $rootScope) {
     angular.extend($scope, {
         center: {
-            lat: 40.7127,
-            lng: 74.0059,
-            zoom: 10
-        }
+            lat: 51.505,
+            lng: 13.0059,
+            zoom: 15
+        },
+        data: {markers: {}},
+        events: {}
     });
-    
+    $scope.messagesData = "";
+    $scope.postMessageValue = false;
     $scope.getCurrentLocation = function() {
-            deviceready().then(function () {
-                navigator.geolocation.getCurrentPosition(
-                function (args) {
-                    $scope.center.lat = args.coords.latitude;
-                    $scope.center.lng = args.coords.longitude;
-                }
-            , function (e) {
-            console.log("Low accurate watch position did not work. Error: " + e.message);
-            }, {
+        deviceready().then(function () {
+            navigator.geolocation.getCurrentPosition(
+            function (args) {
+                $scope.center.lat = args.coords.latitude;
+                $scope.center.lng = args.coords.longitude;
+            }
+        , function (e) {
+        console.log("Low accurate watch position did not work. Error: " + e.message);
+        }, {
             timeout: 10000,
             maximumAge: 10000
-            });
-            // navigator.geolocation.getCurrentPosition(
-            //   function (args) {
-            //     console.log("xxx");
-            //     console.log(args.coords.latitude);
-            //     // $scope.onSuccess = {
-            //     //   lastLocation.lat: parseFloat(args.coords.latitude),
-            //     //   lastLocation.lng: parseFloat(args.coords.longitude),
-            //     //   time: args.timestamp
-            //     // };
-            //   }, function (e) {
-            //     console.log("Low accurate watch position did not work. Error: " + e.message);
-            //     defered.notify(options);
-            //   }, {
-            //     timeout: 10000,
-            //     maximumAge: 10000
-            //   });
+        });
         });
     };
     // geo-coding
@@ -51,58 +38,69 @@ app.controller('mapCtrl', [ '$scope', 'leafletData', '$q', 'deviceready', '$wind
                     var loc = results[0].geometry.location;
                     $scope.search = results[0].formatted_address;
                     $scope.center.lat = loc.lat();
-                    $scope.center.lng = loc.lat();
-                    //$scope.gotoLocation(loc.lat(), loc.lat());
+                    $scope.center.lng = loc.lng();
                 } else {
                     alert("Sorry, this search produced no results.");
                 }
             });
         }
     };
+    $scope.markers = new Array();
+    $scope.addMarkers = function() {
+        $scope.data.markers = {};
+        $http.get('http://secret-messages-osm.herokuapp.com/messages.json')
+        .success(function (data, status, headers, config) {
+            console.log("MessagesContentService From Server achieved.");
+            $scope.messagesData = data;
+            for (var i = 0; i < data.length; i++) {
+                $scope.markers.push({
+                    lat: $scope.messagesData[i]["lat"],
+                    lng: $scope.messagesData[i]["lng"],
+                    message: $scope.messagesData[i]["content"] + '<br/>Written by: ' + $scope.messagesData[i]["signature"]
+                });
+            }
+        
+        })
+        .error(function (data, status, headers, config) {
+            console.log("[MessagesContentService] We got an error in loading."+config);
+            
+        });
+        angular.extend($scope.data, { angularInterpolatedMessage : "Angular interpolated message!"});
+    };
+    $scope.removeMarkers = function() {
+        $scope.data.markers = {};
+    }
+    $scope.addMarkers();
 
+    
 
-    //$scope.geoCode = function() {
-        // var map = L.map('map').setView([0, 0], 2);
-        // L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-        //     attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-        // }).addTo(map);
-        // L.Control.geocoder().addTo(map);
-        // return true;
-        // var map = L.map('map').setView([0, 0], 2),
-        //     geocoder = L.Control.Geocoder.nominatim(),
-        //     control = L.Control.geocoder({
-        //         geocoder: geocoder
-        //     }).addTo(map),
-        //     marker;
-        // L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-        //     attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-        // }).addTo(map);
-        // map.on('click', function(e) {
-        //     geocoder.reverse(e.latlng, map.options.crs.scale(map.getZoom()), function(results) {
-        //         var r = results[0];
-        //         if (r) {
-        //             if (marker) {
-        //                 marker.
-        //                     setLatLng(r.center).
-        //                     setPopupContent(r.html || r.name).
-        //                     openPopup();
-        //             } else {
-        //                 marker = L.marker(r.center).bindPopup(r.name).addTo(map).openPopup();
-        //             }
-        //         }
-        //     })
-        // })
-        // deviceready().then(function () {
-        //      navigator.geocoder.geocodeString(
-        //         function onSuccess(coords) {
-        //             alert("The location is lat="+coords.latitude+", lon="+coords.longitude);
-        //         }, 
-        //         function onError(err) {
-        //             alert(JSON.stringify(err));
-        //         }, 
-        //         "55418");           
-        // })
+    $scope.$on("leafletDirectiveMap.click", function(event, args){
+        var leafEvent = args.leafletEvent;
+        // popupService.alert("test");
+        popupService.alert({
+          templateUrl: 'views/alert.html'
+        }).then(function () {
+            $scope.postMessageValue = true;
+            $scope.markers.push({
+                lat: leafEvent.latlng.lat,
+                lng: leafEvent.latlng.lng,
+                message: "Add new message here"
+            });
+            $scope.$broadcast('sendingPosition', {
+                lat: leafEvent.latlng.lat,
+                lng: leafEvent.latlng.lng
+            });
+        });
+        
+    });
+    $scope.$on('cancelSendMessage', function() {
+        $scope.markers.pop();
+        $scope.postMessageValue = false;
+    });  
+    $scope.$on('messageSent', function(event, data) {
+        $scope.postMessageValue = false;
+        $scope.markers[$scope.markers.length-1]["message"] = data.message + '<br/>Written by: ' + data.signature;
+    }); 
 
-    //}
 }]
 );

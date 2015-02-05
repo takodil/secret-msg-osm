@@ -22,4 +22,5 @@
 /Users/aldilaiswari/Development/BA/secret-msg-osm/platforms/android/ant-build/classes/org/apache/cordova/inappbrowser/InAppBrowserDialog.class \
 /Users/aldilaiswari/Development/BA/secret-msg-osm/platforms/android/ant-build/classes/org/apache/cordova/inappbrowser/InAppChromeClient.class \
 /Users/aldilaiswari/Development/BA/secret-msg-osm/platforms/android/ant-build/classes/org/apache/cordova/vibration/Vibration.class \
+/Users/aldilaiswari/Development/BA/secret-msg-osm/platforms/android/ant-build/classes/org/beuckman/geocoder/CDVGeocoder.class \
 /Users/aldilaiswari/Development/BA/secret-msg-osm/platforms/android/ant-build/dexedLibs/classes-0846efbba33aaafe60c0bdf8fd42e6f4.jar \
