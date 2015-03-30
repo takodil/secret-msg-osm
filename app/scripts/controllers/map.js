@@ -1,5 +1,5 @@
 'use strict';
-var app = angular.module('secretMsgOsmApp',['leaflet-directive', 'ngTouch']);
+var app = angular.module('secretMsgOsmApp',['leaflet-directive', 'ngTouch', 'angularFileUpload']);
 
 app.controller('mapCtrl', [ '$scope', 'leafletData', '$q', 'deviceready', '$window', 'MessagesService', '$http', 'popupService', '$rootScope', function($scope, leafletData, $q, deviceready, $window, MessagesService, $http, popupService, $rootScope) {
     angular.extend($scope, {
@@ -48,21 +48,22 @@ app.controller('mapCtrl', [ '$scope', 'leafletData', '$q', 'deviceready', '$wind
     $scope.markers = new Array();
     $scope.addMarkers = function() {
         $scope.data.markers = {};
-        $http.get('http://secret-messages-osm.herokuapp.com/messages.json')
+        $http.get('http://192.168.0.15:9000//messages.json')
         .success(function (data, status, headers, config) {
             console.log("MessagesContentService From Server achieved.");
             $scope.messagesData = data;
             for (var i = 0; i < data.length; i++) {
+                var html = "<img class='image-marker' src='"+$scope.messagesData[i]["image_url"]+"' id='myimg' />";
                 $scope.markers.push({
                     lat: $scope.messagesData[i]["lat"],
                     lng: $scope.messagesData[i]["lng"],
-                    message: $scope.messagesData[i]["content"] + '<br/>Written by: ' + $scope.messagesData[i]["signature"]
+                    message: html+$scope.messagesData[i]["content"] + '<br/>Written by: ' + $scope.messagesData[i]["signature"]
                 });
             }
         
         })
         .error(function (data, status, headers, config) {
-            console.log("[MessagesContentService] We got an error in loading."+config);
+            console.log("[MessagesContentService] We got an error in loading."+JSON.stringify(config)+data );
             
         });
         angular.extend($scope.data, { angularInterpolatedMessage : "Angular interpolated message!"});
@@ -99,7 +100,8 @@ app.controller('mapCtrl', [ '$scope', 'leafletData', '$q', 'deviceready', '$wind
     });  
     $scope.$on('messageSent', function(event, data) {
         $scope.postMessageValue = false;
-        $scope.markers[$scope.markers.length-1]["message"] = data.message + '<br/>Written by: ' + data.signature;
+        $scope.data.markers = {};
+        $scope.addMarkers();
     }); 
 
 }]

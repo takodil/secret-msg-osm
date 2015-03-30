@@ -10,6 +10,7 @@
  */
 angular
   .module('secretMsgOsmApp', [
+    'angularFileUpload',
     'ngAnimate',
     'ngCookies',
     'ngResource',

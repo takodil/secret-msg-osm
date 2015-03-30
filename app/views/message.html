@@ -27,8 +27,9 @@
 
 	</form>
   <div class="button-group">
+    <div class="button center" ng-click="getPhoto()">Add photo</div>
     <div class="button center" ng-class="{inactive: sendMessage.$invalid}" ng-click="send(sendMessage.$valid)" translate>
-          Post
+          No photo
     </div>
     <div class="button center" ng-click="cancel()" translate>
           Cancel
