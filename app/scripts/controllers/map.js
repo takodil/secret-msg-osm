@@ -48,7 +48,7 @@ app.controller('mapCtrl', [ '$scope', 'leafletData', '$q', 'deviceready', '$wind
     $scope.markers = new Array();
     $scope.addMarkers = function() {
         $scope.data.markers = {};
-        $http.get('http://192.168.0.15:9000//messages.json')
+        $http.get('http://secret-messages-osm.herokuapp.com/messages.json')
         .success(function (data, status, headers, config) {
             console.log("MessagesContentService From Server achieved.");
             $scope.messagesData = data;

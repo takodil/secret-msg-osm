@@ -13,7 +13,7 @@ angular.module('secretMsgOsmApp')
     };
     $scope.send = function(valid){
       if(valid) {
-        $http.post("http://192.168.0.15:9000/messages.json", {
+        $http.post("http://secret-messages-osm.herokuapp.com/messages.json", {
           content: $scope.message.replace(/\n/g,"<br/>"),
           signature: $scope.signature,
           lat: $scope.position.lat,
@@ -53,7 +53,7 @@ angular.module('secretMsgOsmApp')
       options.params = params;
 
       var ft = new FileTransfer();
-      ft.upload(imageURI, "http://192.168.0.15:9000/messages.json", $scope.win, $scope.fail, options);
+      ft.upload(imageURI, "http://secret-messages-osm.herokuapp.com/messages.json", $scope.win, $scope.fail, options);
   }
 
   $scope.win = function(r) {
