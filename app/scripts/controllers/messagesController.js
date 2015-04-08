@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('secretMsgOsmApp')
-  .controller('MsgsCtrl', function ($scope, deviceready, MessagesService, $timeout, $q, $http, $rootScope, popupService, $upload) {
+  .controller('MsgsCtrl', function ($scope, deviceready, MessagesService, $timeout, $q, $http, $rootScope, popupService) {
     $scope.message = '';
     $scope.signature = '';
     $scope.min_length = 2;
@@ -10,38 +10,49 @@ angular.module('secretMsgOsmApp')
     $scope.position = {
       lat: 51.505,
       lng: 13.0059
-    };
+    }
+    $scope.photoExists = false;
+    $scope.imageSRC = "http://secret-messages-osm.herokuapp.com/images/missing.png";
     $scope.send = function(valid){
+      console.log($scope.photoExists);
       if(valid) {
-        $http.post("http://secret-messages-osm.herokuapp.com/messages.json", {
-          content: $scope.message.replace(/\n/g,"<br/>"),
-          signature: $scope.signature,
-          lat: $scope.position.lat,
-          lng: $scope.position.lng
-        }).success(function(data, code){
-          if (code !== 201){
+        if($scope.photoExists){
+          $scope.uploadPhoto($scope.imageSRC);
+        }
+        else{
+          $http.post("http://secret-messages-osm.herokuapp.com/messages.json", {
+            content: $scope.message.replace(/\n/g,"<br/>"),
+            signature: $scope.signature,
+            lat: $scope.position.lat,
+            lng: $scope.position.lng
+          }).success(function(data, code){
+            if (code !== 201){
+              popupService.alert(JSON.stringify(data.errors));
+            }
+            else {
+              popupService.alert("Message is successfully posted!");
+              $scope.message = '';
+              $scope.signature = '';
+              $scope.imageSRC = "http://secret-messages-osm.herokuapp.com/images/missing.png";
+              $rootScope.$broadcast('messageSent', {
+                  message: $scope.message,
+                  signature: $scope.signature
+              });
+            }
+          }).error(function(data, code){
             popupService.alert(JSON.stringify(data.errors));
-          }
-          else {
-            popupService.alert("Message is successfully posted!");
-            $rootScope.$broadcast('messageSent', {
-                message: $scope.message,
-                signature: $scope.signature
-            });
-          }
-        }).error(function(data, code){
-          popupService.alert(JSON.stringify(data.errors));
-      })
+        })
+      }
     }
     else {
       popupService.alert("Data is not valid");
     }
   }
 
-  $scope.uploadPhoto = function(imageURI) {
+  $scope.uploadPhoto = function(imageSRC) {
       var options = new FileUploadOptions();
       options.fileKey="image";
-      options.fileName=imageURI.substr(imageURI.lastIndexOf('/')+1);
+      options.fileName=imageSRC.substr(imageSRC.lastIndexOf('/')+1);
       options.mimeType="image/jpeg";
 
       var params = {};
@@ -53,7 +64,7 @@ angular.module('secretMsgOsmApp')
       options.params = params;
 
       var ft = new FileTransfer();
-      ft.upload(imageURI, "http://secret-messages-osm.herokuapp.com/messages.json", $scope.win, $scope.fail, options);
+      ft.upload(imageSRC, "http://secret-messages-osm.herokuapp.com/messages.json", $scope.win, $scope.fail, options);
   }
 
   $scope.win = function(r) {
@@ -61,6 +72,9 @@ angular.module('secretMsgOsmApp')
       console.log("Response = " + r.response);
       console.log("Sent = " + r.bytesSent);
       popupService.alert("Message is successfully posted!");
+      $scope.message = '';
+      $scope.signature = '';
+      $scope.imageSRC = "http://secret-messages-osm.herokuapp.com/images/missing.png";
       $rootScope.$broadcast('messageSent', {
           message: $scope.message,
           signature: $scope.signature
@@ -71,7 +85,6 @@ angular.module('secretMsgOsmApp')
       alert("An error has occurred: Code = " + error.code);
       console.log("upload error source " + error.source);
       console.log("upload error target " + error.target);
-      console.log("upload error " + JSON.stringify(error));
   }
 
 
@@ -79,7 +92,7 @@ angular.module('secretMsgOsmApp')
   $scope.getPhoto = function() {
     deviceready().then(function () {
       navigator.camera.getPicture(
-          $scope.uploadPhoto,
+          $scope.setPhotoExists,
           function(message) { alert('get picture failed'); },
           {
               quality         : 50,
@@ -91,6 +104,13 @@ angular.module('secretMsgOsmApp')
   }
   $scope.cancel = function(){
     $rootScope.$broadcast('cancelSendMessage');
+    $scope.message = '';
+    $scope.signature = '';
+    $scope.imageSRC = "http://secret-messages-osm.herokuapp.com/images/missing.png";
+  }
+  $scope.setPhotoExists = function(imageURI) {
+    $scope.photoExists = true;
+    $scope.imageSRC = imageURI;
   }
 
   $scope.$on('sendingPosition', function (event, data) {

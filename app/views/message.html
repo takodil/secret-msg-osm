@@ -27,9 +27,10 @@
 
 	</form>
   <div class="button-group">
-    <div class="button center" ng-click="getPhoto()">Add photo</div>
-    <div class="button center" ng-class="{inactive: sendMessage.$invalid}" ng-click="send(sendMessage.$valid)" translate>
-          No photo
+    <div class="button center" ng-class="{'not-active' : sendMessage.$invalid}" ng-click="getPhoto()">Add photo</div>
+    <img class= "center" ng-src="{{imageSRC}}">
+    <div class="button center" ng-class="{'not-active' : sendMessage.$invalid}" ng-click="send(sendMessage.$valid)" translate>
+          Post
     </div>
     <div class="button center" ng-click="cancel()" translate>
           Cancel

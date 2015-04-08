@@ -129,7 +129,6 @@
 /Users/aldilaiswari/Development/BA/secret-msg-osm/platforms/android/assets/www/scripts/services \
 /Users/aldilaiswari/Development/BA/secret-msg-osm/platforms/android/assets/www/scripts/controllers/map.js \
 /Users/aldilaiswari/Development/BA/secret-msg-osm/platforms/android/assets/www/scripts/controllers/messagesController.js \
-/Users/aldilaiswari/Development/BA/secret-msg-osm/platforms/android/assets/www/scripts/controllers/picturesController.js \
 /Users/aldilaiswari/Development/BA/secret-msg-osm/platforms/android/assets/www/scripts/controllers/start.js \
 /Users/aldilaiswari/Development/BA/secret-msg-osm/platforms/android/assets/www/scripts/directives/angular-leaflet-directive.js \
 /Users/aldilaiswari/Development/BA/secret-msg-osm/platforms/android/assets/www/scripts/directives/angular-touch.js \
@@ -148,5 +147,4 @@
 /Users/aldilaiswari/Development/BA/secret-msg-osm/platforms/android/assets/www/views/main.html \
 /Users/aldilaiswari/Development/BA/secret-msg-osm/platforms/android/assets/www/views/map.html \
 /Users/aldilaiswari/Development/BA/secret-msg-osm/platforms/android/assets/www/views/message.html \
-/Users/aldilaiswari/Development/BA/secret-msg-osm/platforms/android/assets/www/views/picture.html \
 /Users/aldilaiswari/Development/BA/secret-msg-osm/platforms/android/ant-build/AndroidManifest.xml \

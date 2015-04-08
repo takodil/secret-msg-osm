@@ -1,5 +1,5 @@
 'use strict';
-var app = angular.module('secretMsgOsmApp',['leaflet-directive', 'ngTouch', 'angularFileUpload']);
+var app = angular.module('secretMsgOsmApp',['leaflet-directive', 'ngTouch']);
 
 app.controller('mapCtrl', [ '$scope', 'leafletData', '$q', 'deviceready', '$window', 'MessagesService', '$http', 'popupService', '$rootScope', function($scope, leafletData, $q, deviceready, $window, MessagesService, $http, popupService, $rootScope) {
     angular.extend($scope, {
@@ -45,6 +45,9 @@ app.controller('mapCtrl', [ '$scope', 'leafletData', '$q', 'deviceready', '$wind
             });
         }
     };
+    $scope.fullScreenImage = function() {
+        alert("test");
+    }
     $scope.markers = new Array();
     $scope.addMarkers = function() {
         $scope.data.markers = {};
@@ -53,7 +56,10 @@ app.controller('mapCtrl', [ '$scope', 'leafletData', '$q', 'deviceready', '$wind
             console.log("MessagesContentService From Server achieved.");
             $scope.messagesData = data;
             for (var i = 0; i < data.length; i++) {
-                var html = "<img class='image-marker' src='"+$scope.messagesData[i]["image_url"]+"' id='myimg' />";
+                var html = '';
+                if ($scope.messagesData[i]['image_url'].indexOf("http") == 0){
+                    html = '<img class="image-marker" ng-click src="'+$scope.messagesData[i]['image_url']+'" id="myimg" />';
+                }
                 $scope.markers.push({
                     lat: $scope.messagesData[i]["lat"],
                     lng: $scope.messagesData[i]["lng"],
@@ -72,8 +78,6 @@ app.controller('mapCtrl', [ '$scope', 'leafletData', '$q', 'deviceready', '$wind
         $scope.data.markers = {};
     }
     $scope.addMarkers();
-
-    
 
     $scope.$on("leafletDirectiveMap.click", function(event, args){
         var leafEvent = args.leafletEvent;
