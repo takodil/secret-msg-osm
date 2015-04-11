@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('secretMsgOsmApp')
-  .controller('MsgsCtrl', function ($scope, deviceready, MessagesService, $timeout, $q, $http, $rootScope, popupService) {
+  .controller('MsgsCtrl', function ($scope, deviceready, $timeout, $q, $http, $rootScope, popupService) {
     $scope.message = '';
     $scope.signature = '';
     $scope.min_length = 2;
@@ -12,9 +12,8 @@ angular.module('secretMsgOsmApp')
       lng: 13.0059
     }
     $scope.photoExists = false;
-    $scope.imageSRC = "http://secret-messages-osm.herokuapp.com/images/missing.png";
+    $scope.imageSRC = "";
     $scope.send = function(valid){
-      console.log($scope.photoExists);
       if(valid) {
         if($scope.photoExists){
           $scope.uploadPhoto($scope.imageSRC);
@@ -31,9 +30,7 @@ angular.module('secretMsgOsmApp')
             }
             else {
               popupService.alert("Message is successfully posted!");
-              $scope.message = '';
-              $scope.signature = '';
-              $scope.imageSRC = "http://secret-messages-osm.herokuapp.com/images/missing.png";
+              $scope.setMessageEmpty();
               $rootScope.$broadcast('messageSent', {
                   message: $scope.message,
                   signature: $scope.signature
@@ -41,6 +38,7 @@ angular.module('secretMsgOsmApp')
             }
           }).error(function(data, code){
             popupService.alert(JSON.stringify(data.errors));
+            $scope.setMessageEmpty();
         })
       }
     }
@@ -72,9 +70,7 @@ angular.module('secretMsgOsmApp')
       console.log("Response = " + r.response);
       console.log("Sent = " + r.bytesSent);
       popupService.alert("Message is successfully posted!");
-      $scope.message = '';
-      $scope.signature = '';
-      $scope.imageSRC = "http://secret-messages-osm.herokuapp.com/images/missing.png";
+      $scope.setMessageEmpty();
       $rootScope.$broadcast('messageSent', {
           message: $scope.message,
           signature: $scope.signature
@@ -82,18 +78,17 @@ angular.module('secretMsgOsmApp')
   }
 
   $scope.fail = function(error) {
-      alert("An error has occurred: Code = " + error.code);
+      popupService.alert("An error has occurred: Code = " + error.code);
       console.log("upload error source " + error.source);
       console.log("upload error target " + error.target);
+      $scope.setMessageEmpty();
   }
-
-
 
   $scope.getPhoto = function() {
     deviceready().then(function () {
       navigator.camera.getPicture(
           $scope.setPhotoExists,
-          function(message) { alert('get picture failed'); },
+          function(message) { popupService.alert('get picture failed'); },
           {
               quality         : 50,
               destinationType : Camera.DestinationType.FILE_URI
@@ -104,13 +99,17 @@ angular.module('secretMsgOsmApp')
   }
   $scope.cancel = function(){
     $rootScope.$broadcast('cancelSendMessage');
-    $scope.message = '';
-    $scope.signature = '';
-    $scope.imageSRC = "http://secret-messages-osm.herokuapp.com/images/missing.png";
+    $scope.setMessageEmpty();
   }
   $scope.setPhotoExists = function(imageURI) {
     $scope.photoExists = true;
     $scope.imageSRC = imageURI;
+  }
+  $scope.setMessageEmpty = function() {
+    $scope.photoExists = false;
+    $scope.message = '';
+    $scope.signature = '';
+    $scope.imageSRC = "";
   }
 
   $scope.$on('sendingPosition', function (event, data) {

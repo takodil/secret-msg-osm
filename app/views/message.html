@@ -20,15 +20,13 @@
         min {{min_length}} characters</div>
     <div class="error" ng-show="sendMessage.message.$error.maxlength">
         max {{max_length}} characters</div>
-    <div class="error" ng-show="sendMessage.signature.$error.minlength">
-      min {{min_length}} characters</div>
     <div class="error" ng-show="sendMessage.signature.$error.signature_max_length">
         max {{max_length}} characters</div>
 
-	</form>
+  </form>
   <div class="button-group">
-    <div class="button center" ng-class="{'not-active' : sendMessage.$invalid}" ng-click="getPhoto()">Add photo</div>
-    <img class= "center" ng-src="{{imageSRC}}">
+    <div class="button center" ng-click="getPhoto()">Add photo</div>
+    <img ng-src="{{imageSRC}}" ng-class="photoExists ? 'center' : 'none'">
     <div class="button center" ng-class="{'not-active' : sendMessage.$invalid}" ng-click="send(sendMessage.$valid)" translate>
           Post
     </div>

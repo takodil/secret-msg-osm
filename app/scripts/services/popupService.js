@@ -1,6 +1,6 @@
 angular.module('secretMsgOsmApp').factory('popupService',
-  ["$timeout", "$q", "$compile", "$rootScope", "$log", "phonegapReady",
-    function ($timeout, $q, $compile, $rootScope, $log, phonegapReady) {
+  ["$timeout", "$q", "$compile", "$rootScope", "$log",
+    function ($timeout, $q, $compile, $rootScope, $log) {
 
       var alert_default = {
         button: "OK"

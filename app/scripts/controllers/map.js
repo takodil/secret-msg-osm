@@ -1,7 +1,6 @@
 'use strict';
-var app = angular.module('secretMsgOsmApp',['leaflet-directive', 'ngTouch']);
-
-app.controller('mapCtrl', [ '$scope', 'leafletData', '$q', 'deviceready', '$window', 'MessagesService', '$http', 'popupService', '$rootScope', function($scope, leafletData, $q, deviceready, $window, MessagesService, $http, popupService, $rootScope) {
+angular.module('secretMsgOsmApp')
+.controller('mapCtrl', [ '$scope', 'leafletData', '$q', 'deviceready', '$window', '$http', 'popupService', '$rootScope', function($scope, leafletData, $q, deviceready, $window, $http, popupService, $rootScope) {
     angular.extend($scope, {
         center: {
             lat: 51.505,
@@ -29,29 +28,29 @@ app.controller('mapCtrl', [ '$scope', 'leafletData', '$q', 'deviceready', '$wind
         });
     };
     // geo-coding
-    $scope.search = "";
+    $scope.address = "";
     $scope.geoCode = function () {
-        if ($scope.search && $scope.search.length > 0) {
+        if ($scope.address && $scope.address.length > 0) {
             if (!this.geocoder) this.geocoder = new google.maps.Geocoder();
-            this.geocoder.geocode({ 'address': $scope.search }, function (results, status) {
+            this.geocoder.geocode({ "address": $scope.search }, function (results, status) {
                 if (status == google.maps.GeocoderStatus.OK) {
                     var loc = results[0].geometry.location;
                     $scope.search = results[0].formatted_address;
                     $scope.center.lat = loc.lat();
                     $scope.center.lng = loc.lng();
                 } else {
-                    alert("Sorry, this search produced no results.");
+                    popupService.alert("Sorry, this search produced no results.");
                 }
-            });
+            })
+        }
+        else {
+            popupService.alert("Please insert address first.");
         }
     };
-    $scope.fullScreenImage = function() {
-        alert("test");
-    }
     $scope.markers = new Array();
     $scope.addMarkers = function() {
         $scope.data.markers = {};
-        $http.get('http://secret-messages-osm.herokuapp.com/messages.json')
+        $http.get("http://secret-messages-osm.herokuapp.com/messages.json")
         .success(function (data, status, headers, config) {
             console.log("MessagesContentService From Server achieved.");
             $scope.messagesData = data;
@@ -81,7 +80,6 @@ app.controller('mapCtrl', [ '$scope', 'leafletData', '$q', 'deviceready', '$wind
 
     $scope.$on("leafletDirectiveMap.click", function(event, args){
         var leafEvent = args.leafletEvent;
-        // popupService.alert("test");
         popupService.alert({
           templateUrl: 'views/alert.html'
         }).then(function () {
@@ -91,18 +89,18 @@ app.controller('mapCtrl', [ '$scope', 'leafletData', '$q', 'deviceready', '$wind
                 lng: leafEvent.latlng.lng,
                 message: "Add new message here"
             });
-            $scope.$broadcast('sendingPosition', {
+            $scope.$broadcast("sendingPosition", {
                 lat: leafEvent.latlng.lat,
                 lng: leafEvent.latlng.lng
             });
         });
         
     });
-    $scope.$on('cancelSendMessage', function() {
+    $scope.$on("cancelSendMessage", function() {
         $scope.markers.pop();
         $scope.postMessageValue = false;
     });  
-    $scope.$on('messageSent', function(event, data) {
+    $scope.$on("messageSent", function(event, data) {
         $scope.postMessageValue = false;
         $scope.data.markers = {};
         $scope.addMarkers();
