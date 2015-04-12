@@ -6,6 +6,13 @@
 /Users/aldilaiswari/Development/BA/secret-msg-osm/platforms/android/ant-build/classes/com/aldila/R$string.class \
 /Users/aldilaiswari/Development/BA/secret-msg-osm/platforms/android/ant-build/classes/com/aldila/R$xml.class \
 /Users/aldilaiswari/Development/BA/secret-msg-osm/platforms/android/ant-build/classes/com/aldila/R.class \
+/Users/aldilaiswari/Development/BA/secret-msg-osm/platforms/android/ant-build/classes/de/htwberlin/ai/BuildConfig.class \
+/Users/aldilaiswari/Development/BA/secret-msg-osm/platforms/android/ant-build/classes/de/htwberlin/ai/CordovaApp.class \
+/Users/aldilaiswari/Development/BA/secret-msg-osm/platforms/android/ant-build/classes/de/htwberlin/ai/R$attr.class \
+/Users/aldilaiswari/Development/BA/secret-msg-osm/platforms/android/ant-build/classes/de/htwberlin/ai/R$drawable.class \
+/Users/aldilaiswari/Development/BA/secret-msg-osm/platforms/android/ant-build/classes/de/htwberlin/ai/R$string.class \
+/Users/aldilaiswari/Development/BA/secret-msg-osm/platforms/android/ant-build/classes/de/htwberlin/ai/R$xml.class \
+/Users/aldilaiswari/Development/BA/secret-msg-osm/platforms/android/ant-build/classes/de/htwberlin/ai/R.class \
 /Users/aldilaiswari/Development/BA/secret-msg-osm/platforms/android/ant-build/classes/org/apache/cordova/camera/CameraLauncher.class \
 /Users/aldilaiswari/Development/BA/secret-msg-osm/platforms/android/ant-build/classes/org/apache/cordova/camera/ExifHelper.class \
 /Users/aldilaiswari/Development/BA/secret-msg-osm/platforms/android/ant-build/classes/org/apache/cordova/camera/FileHelper.class \

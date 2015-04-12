@@ -1,3 +1,3 @@
 # view AndroidManifest.xml #generated:6
--keep class com.aldila.CordovaApp { <init>(...); }
+-keep class de.htwberlin.ai.CordovaApp { <init>(...); }
 
