@@ -20,8 +20,10 @@
         min {{min_length}} characters</div>
     <div class="error" ng-show="sendMessage.message.$error.maxlength">
         max {{max_length}} characters</div>
-    <div class="error" ng-show="sendMessage.signature.$error.signature_max_length">
-        max {{max_length}} characters</div>
+    <div class="error" ng-show="sendMessage.signature.$error.maxlength">
+        max {{signature_max_length}} characters</div>
+        <div class="error" ng-show="sendMessage.signature.$error.minlength">
+        min {{min_length}} characters</div>
 
   </form>
   <div class="button-group">

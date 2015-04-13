@@ -32,10 +32,10 @@ angular.module('secretMsgOsmApp')
     $scope.geoCode = function () {
         if ($scope.address && $scope.address.length > 0) {
             if (!this.geocoder) this.geocoder = new google.maps.Geocoder();
-            this.geocoder.geocode({ "address": $scope.search }, function (results, status) {
+            this.geocoder.geocode({ "address": $scope.address }, function (results, status) {
                 if (status == google.maps.GeocoderStatus.OK) {
                     var loc = results[0].geometry.location;
-                    $scope.search = results[0].formatted_address;
+                    $scope.address = results[0].formatted_address;
                     $scope.center.lat = loc.lat();
                     $scope.center.lng = loc.lng();
                 } else {

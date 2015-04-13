@@ -6,6 +6,13 @@
 /Users/aldilaiswari/Development/BA/secret-msg-osm/platforms/android/ant-build/classes/com/aldila/R$string.class \
 /Users/aldilaiswari/Development/BA/secret-msg-osm/platforms/android/ant-build/classes/com/aldila/R$xml.class \
 /Users/aldilaiswari/Development/BA/secret-msg-osm/platforms/android/ant-build/classes/com/aldila/R.class \
+/Users/aldilaiswari/Development/BA/secret-msg-osm/platforms/android/ant-build/classes/de/htwberlin/ai/aldila/BuildConfig.class \
+/Users/aldilaiswari/Development/BA/secret-msg-osm/platforms/android/ant-build/classes/de/htwberlin/ai/aldila/CordovaApp.class \
+/Users/aldilaiswari/Development/BA/secret-msg-osm/platforms/android/ant-build/classes/de/htwberlin/ai/aldila/R$attr.class \
+/Users/aldilaiswari/Development/BA/secret-msg-osm/platforms/android/ant-build/classes/de/htwberlin/ai/aldila/R$drawable.class \
+/Users/aldilaiswari/Development/BA/secret-msg-osm/platforms/android/ant-build/classes/de/htwberlin/ai/aldila/R$string.class \
+/Users/aldilaiswari/Development/BA/secret-msg-osm/platforms/android/ant-build/classes/de/htwberlin/ai/aldila/R$xml.class \
+/Users/aldilaiswari/Development/BA/secret-msg-osm/platforms/android/ant-build/classes/de/htwberlin/ai/aldila/R.class \
 /Users/aldilaiswari/Development/BA/secret-msg-osm/platforms/android/ant-build/classes/de/htwberlin/ai/BuildConfig.class \
 /Users/aldilaiswari/Development/BA/secret-msg-osm/platforms/android/ant-build/classes/de/htwberlin/ai/CordovaApp.class \
 /Users/aldilaiswari/Development/BA/secret-msg-osm/platforms/android/ant-build/classes/de/htwberlin/ai/R$attr.class \

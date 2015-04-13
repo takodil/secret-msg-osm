@@ -117,6 +117,6 @@ angular.module('secretMsgOsmApp')
     $scope.position.lng = data.lng;
   });
 
-  });
+});
 
 
